@@ -28,7 +28,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body style={{ background: "#F8FAFC" }}>
+      <body style={{ background: "colors.syndex.background" }}>
         <Provider>{children}</Provider>
       </body>
     </html>
