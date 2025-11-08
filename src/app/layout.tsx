@@ -1,3 +1,4 @@
+import { BaseLayout } from "@source/components/layouts/base-layout";
 import { Provider } from "@source/components/ui/provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -28,8 +29,10 @@ export default function RootLayout({
 			className={`${geistSans.variable} ${geistMono.variable}`}
 			suppressHydrationWarning
 		>
-			<body>
-				<Provider>{children}</Provider>
+			<body style={{ background: "colors.syndex.background" }}>
+				<Provider>
+					<BaseLayout>{children}</BaseLayout>
+				</Provider>
 			</body>
 		</html>
 	);
