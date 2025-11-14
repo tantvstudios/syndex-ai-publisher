@@ -3,7 +3,7 @@ import MultiSelectButton from "../../custom-multi-select-button";
 import { useState } from "react";
 
 const options = [
-  "Startup Splotlight",
+  "Startup Spotlight",
   "Lifestyle & Culture",
   "Business & Tech",
   "Tech & Innovation",
