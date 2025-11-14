@@ -7,6 +7,7 @@ interface MultiSelectButtonProps {
   onChange?: (selected: string[]) => void;
   size?: "sm" | "md" | "lg";
   spacing?: number;
+  maxSelections?: number;
 }
 
 interface value {
@@ -19,9 +20,14 @@ const MultiSelectButton = ({
   value = [],
   onChange,
   size = "md",
-  spacing = 2,
+  maxSelections = Infinity,
 }: MultiSelectButtonProps) => {
   const toggle = (option: string) => {
+    const isSelected = value.includes(option);
+    if (!isSelected && value.length >= maxSelections) {
+      return; // Do not allow more selections
+    }
+
     const newSelected = value.includes(option)
       ? value.filter((item) => item !== option)
       : [...value, option];
@@ -33,6 +39,11 @@ const MultiSelectButton = ({
       <HStack wrap="wrap">
         {options.map((opt) => {
           const isSelected = value.includes(opt);
+          const isDisabled =
+            !isSelected &&
+            maxSelections !== undefined &&
+            value.length >= maxSelections;
+
           return (
             <Button
               key={opt}
@@ -42,7 +53,8 @@ const MultiSelectButton = ({
               color={"black"}
               borderColor="black"
               borderWidth="1px"
-              cursor={"pointer"}
+              cursor={isDisabled ? "not-allowed" : "pointer"}
+              opacity={isDisabled ? 0.6 : 1}
             >
               {isSelected ? <FaMinus /> : <FaPlus />}
               {opt}
