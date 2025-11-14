@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, FormatNumber } from "@chakra-ui/react";
 
 const BrandsSummary = ({
   totalBrands = 0,
@@ -18,35 +18,31 @@ const BrandsSummary = ({
     { title: "Total Followers", value: totalFollowers, color: "#c6f9fa" },
   ];
 
-  const formatNumber = (num: number) =>
-    new Intl.NumberFormat("en-US").format(num);
-
   return (
-    <div>
-      <Flex direction={"row"} gap={"1rem"} mt={"1rem"}>
-        {brandSummary.map((item) => (
-          <Box
-            key={item.title}
-            h="10rem"
-            w="16rem"
-            bg={item.color}
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="8px"
-            boxShadow="md"
-          >
-            <Box fontSize="2xl" fontWeight="bold" mt="0.5rem">
-              {formatNumber(item.value)}
-            </Box>
-            <Box fontSize="lg" fontWeight="light" mt="0.5rem">
-              {item.title}
-            </Box>
+    <Flex direction={"row"} gap={"1rem"} mt={"1rem"}>
+      {brandSummary.map((item) => (
+        <Box
+          key={item.title}
+          h="6rem"
+          w="16rem"
+          p="3.5rem"
+          bg={item.color}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          borderRadius="2rem"
+          boxShadow="lg"
+        >
+          <Box fontSize="3xl" fontWeight="extrabold" mt="0.5rem">
+            <FormatNumber value={item.value} />
           </Box>
-        ))}
-      </Flex>
-    </div>
+          <Box fontSize="lg" fontWeight="extralight" mt="0.5rem">
+            {item.title}
+          </Box>
+        </Box>
+      ))}
+    </Flex>
   );
 };
 
