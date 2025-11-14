@@ -1,4 +1,4 @@
-import { Button, Dialog, useDisclosure } from "@chakra-ui/react";
+import { Button, CloseButton, Dialog, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 import { useForm } from "react-hook-form";
@@ -22,6 +22,8 @@ const AddBrand = () => {
     trigger, // Used for step validation
     formState: { errors, isValid, isSubmitting },
     reset, // Used to clear the form
+    register,
+    getValues,
   } = useForm<BrandFormData>({
     defaultValues: {
       brandName: "",
@@ -31,12 +33,25 @@ const AddBrand = () => {
     mode: "onChange", // Validate on change
   });
 
-  {
-    /* Handles step navigation */
-  }
-  const nextStep = () => setStep((prev: number) => prev + 1);
+  /* Handles step navigation */
+
+  const nextStep = async () => {
+    let fieldsToValidate: (keyof BrandFormData)[] = [];
+
+    if (step === 1) {
+      fieldsToValidate = ["brandName", "rssFeed"];
+    }
+
+    const isStepValid = await trigger(fieldsToValidate);
+    if (isStepValid) {
+      setStep((prev: number) => prev + 1);
+    }
+  };
+
   const prevStep = () => setStep((prev: number) => prev - 1);
+
   const handleClose = () => {
+    console.log("Closing and resetting form");
     setStep(0); // Reset step to 0
     onClose();
     reset(); // Clears form data
@@ -51,19 +66,23 @@ const AddBrand = () => {
   let Content;
 
   switch (step) {
-    case 0:
-      // Pass the nextStep function to the first screen
-      Content = <Step1 nextStep={nextStep} />;
-      break;
     case 1:
+      // Pass the nextStep function to the first screen
+      Content = (
+        <Step1 nextStep={nextStep} register={register} errors={errors} />
+      );
+      break;
+    case 2:
       // Pass prevStep and the custom handleClose to the second screen
       Content = <Step2 prevStep={prevStep} nextStep={nextStep} />;
       break;
-    case 2:
+    case 3:
       Content = <Step3 prevStep={prevStep} handleClose={handleClose} />;
       break;
     default:
-      Content = <Step1 nextStep={nextStep} />;
+      Content = (
+        <Step1 nextStep={nextStep} register={register} errors={errors} />
+      );
   }
 
   return (
@@ -77,10 +96,19 @@ const AddBrand = () => {
       >
         Add Brand <CiCirclePlus />
       </Button>
-      <Dialog.Root open={open} onOpenChange={onClose} placement="center">
+      <Dialog.Root
+        open={open}
+        closeOnInteractOutside={false}
+        placement="center"
+      >
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>{Content}</Dialog.Content>
+          <Dialog.Content>
+            {Content}
+            <Dialog.CloseTrigger top="0" insetEnd="-12" asChild>
+              <CloseButton bg="bg" size="sm" onClick={handleClose} />
+            </Dialog.CloseTrigger>
+          </Dialog.Content>
         </Dialog.Positioner>
       </Dialog.Root>
     </>
