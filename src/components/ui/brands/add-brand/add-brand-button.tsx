@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Step1 } from "./form-step1";
 import { Step2 } from "./form-step-2";
 import { Step3 } from "./form-step-3";
+import { Step4 } from "./form-step-4";
 
 const AddBrand = () => {
   const { open, onOpen, onClose } = useDisclosure();
@@ -77,7 +78,10 @@ const AddBrand = () => {
       Content = <Step2 prevStep={prevStep} nextStep={nextStep} />;
       break;
     case 3:
-      Content = <Step3 prevStep={prevStep} handleClose={handleClose} />;
+      Content = <Step3 prevStep={prevStep} nextStep={nextStep} />;
+      break;
+    case 4:
+      Content = <Step4 prevStep={prevStep} handleClose={handleClose} />;
       break;
     default:
       Content = (
@@ -103,7 +107,7 @@ const AddBrand = () => {
       >
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content maxW={"40rem"}>
             {Content}
             <Dialog.CloseTrigger top="0" insetEnd="-12" asChild>
               <CloseButton bg="bg" size="sm" onClick={handleClose} />
