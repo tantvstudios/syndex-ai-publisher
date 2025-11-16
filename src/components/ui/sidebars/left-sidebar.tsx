@@ -8,7 +8,8 @@ import {
   Drawer,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { IoClose } from "react-icons/io5";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { toaster } from "@source/components/ui/toaster";
 import { SIDEBAR_ROUTES } from "@source/data/sidebar";
 import Link from "next/link";
@@ -73,7 +74,7 @@ const SidebarContent = ({
         mb={4}
         display={{ base: "inline-flex", lg: "none" }}
       >
-        <CloseIcon />
+        <IoClose />
       </IconButton>
     )}
     <SidebarList onClose={onClose} />
@@ -85,7 +86,12 @@ export const LeftSidebar = () => {
 
   return (
     <>
-      {/* Mobile Devices Hamburger */}
+      {/* Mobile Devices Hamburger 
+      
+      - change sizing
+      - and margin top, right
+      
+      */}
       <IconButton
         aria-label="Open menu"
         pos="fixed"
@@ -95,10 +101,13 @@ export const LeftSidebar = () => {
         onClick={onOpen}
         display={{ base: "inline-flex", lg: "none" }}
       >
-        <HamburgerIcon />
+        <GiHamburgerMenu />
       </IconButton>
 
-      {/* Mobile Devices Sidebar */}
+      {/* Mobile Devices Sidebar 
+      
+      - ask pratik about mobile view rendering
+      */}
       <Drawer.Root
         open={open}
         onOpenChange={(e) => (e.open ? onOpen() : onClose())}
