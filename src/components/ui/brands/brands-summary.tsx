@@ -1,25 +1,44 @@
 import { Box, Flex, FormatNumber } from "@chakra-ui/react";
 
-const BrandsSummary = ({
-  totalBrands = 0,
-  inReview = 0,
-  totalApproved = 0,
-  totalFollowers = 0,
-}: {
-  totalBrands?: number;
-  inReview?: number;
-  totalApproved?: number;
-  totalFollowers?: number;
-}) => {
+type Brand = {
+  id: number;
+  pubId: string;
+  rssFeedUrl: string;
+  brandImageUrl: string;
+  brandBio: string;
+  brandName: string;
+  reviewStatus: string;
+  regDate: string;
+  adminComments: string | null;
+  adminComments2: string | null;
+};
+
+const BrandsSummary = ({ brands }: { brands: Brand[] }) => {
+  const totalBrands = brands.length;
+  const inReview = brands.filter((b) => b.reviewStatus === "Pending").length;
+  const totalApproved = brands.filter(
+    (b) => b.reviewStatus === "Approved"
+  ).length;
+  const totalRejected = brands.filter(
+    (b) => b.reviewStatus === "Rejected"
+  ).length;
+
   const brandSummary = [
     { title: "Total Brands", value: totalBrands, color: "#dce0fd" },
     { title: "In Review", value: inReview, color: "#e0e6c9" },
     { title: "Total Approved", value: totalApproved, color: "#c6f9fa" },
-    { title: "Total Followers", value: totalFollowers, color: "#c6f9fa" },
+    { title: "Total Rejected", value: totalRejected, color: "#f9c6c6" },
   ];
 
   return (
-    <Flex direction={"row"} gap={"1rem"} mt={"1rem"}>
+    // Adjust the justification and spacing as needed
+    <Flex
+      direction={"row"}
+      gap={"1rem"}
+      mt={"1rem"}
+      justify={"space-around"}
+      // px={"1.5rem"}
+    >
       {brandSummary.map((item) => (
         <Box
           key={item.title}
