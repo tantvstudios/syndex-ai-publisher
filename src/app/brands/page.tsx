@@ -5,68 +5,97 @@ const BrandsPage = () => {
   // Mock Data for Brands
   const brands = [
     {
-      id: 1,
-      name: "NYTimes",
-      registrationDate: "2023-01-01",
-      rssURL: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-      followers: 1200000,
-      status: "approved",
+      id: 121,
+      pubId: "P5S528",
+      rssFeedUrl: "https://www.secretswapp.com.ng/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/gp0pthgluatwfaluggnw.png",
+      brandBio:
+        "This station looks into the socieyty and what makes it what it is. true story at its peak",
+      brandName: "Maxela Space",
+      reviewStatus: "Pending",
+      regDate: "2025-07-07",
+      adminComments: null,
+      adminComments2: null,
     },
     {
-      id: 2,
-      name: "TechCrunch",
-      registrationDate: "2023-02-10",
-      rssURL: "https://techcrunch.com/feed/",
-      followers: 850000,
-      status: "approved",
+      id: 122,
+      pubId: "P5S529",
+      rssFeedUrl: "https://www.techvibes.com/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/techvibes.png",
+      brandBio: "Exploring the latest in tech innovations and gadgets.",
+      brandName: "TechVibes",
+      reviewStatus: "Approved",
+      regDate: "2025-06-15",
+      adminComments: "Looks great for collaboration",
+      adminComments2: null,
     },
     {
-      id: 3,
-      name: "The Guardian – World News",
-      registrationDate: "2023-03-05",
-      rssURL: "https://www.theguardian.com/world/rss",
-      followers: 530000,
-      status: "pending",
+      id: 123,
+      pubId: "P5S530",
+      rssFeedUrl: "https://www.foodieheaven.com/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/foodieheaven.png",
+      brandBio: "All about culinary delights and foodie adventures.",
+      brandName: "Foodie Heaven",
+      reviewStatus: "Rejected",
+      regDate: "2025-05-20",
+      adminComments: "Feed is inactive",
+      adminComments2: "Please update your feed",
     },
     {
-      id: 4,
-      name: "Hacker News",
-      registrationDate: "2023-04-12",
-      rssURL: "https://hnrss.org/frontpage",
-      followers: 420000,
-      status: "approved",
+      id: 124,
+      pubId: "P5S531",
+      rssFeedUrl: "https://www.fashionforward.com/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/fashionforward.png",
+      brandBio: "Trends, styles, and everything fashion-related.",
+      brandName: "Fashion Forward",
+      reviewStatus: "Pending",
+      regDate: "2025-07-01",
+      adminComments: null,
+      adminComments2: null,
     },
     {
-      id: 5,
-      name: "ESPN",
-      registrationDate: "2023-05-20",
-      rssURL: "https://www.espn.com/espn/rss/news",
-      followers: 1100000,
-      status: "rejected",
+      id: 125,
+      pubId: "P5S532",
+      rssFeedUrl: "https://www.sportsmania.com/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/sportsmania.png",
+      brandBio: "Latest news, scores, and commentary on sports.",
+      brandName: "Sports Mania",
+      reviewStatus: "Approved",
+      regDate: "2025-06-25",
+      adminComments: "Excellent content quality",
+      adminComments2: "Consider expanding video coverage",
     },
     {
-      id: 6,
-      name: "Mashable",
-      registrationDate: "2023-06-15",
-      rssURL: "https://mashable.com/feeds/rss/all",
-      followers: 310000,
-      status: "approved",
+      id: 126,
+      pubId: "P5S533",
+      rssFeedUrl: "https://www.travelogue.com/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/travelogue.png",
+      brandBio:
+        "Capturing the essence of travel and adventure around the globe.",
+      brandName: "Travelogue",
+      reviewStatus: "Approved",
+      regDate: "2025-07-10",
+      adminComments: "Engaging content",
+      adminComments2: null,
     },
     {
-      id: 7,
-      name: "Wired",
-      registrationDate: "2023-07-01",
-      rssURL: "https://www.wired.com/feed/rss",
-      followers: 760000,
-      status: "pending",
-    },
-    {
-      id: 8,
-      name: "BBC – Technology",
-      registrationDate: "2023-08-01",
-      rssURL: "http://feeds.bbci.co.uk/news/technology/rss.xml",
-      followers: 950000,
-      status: "approved",
+      id: 127,
+      pubId: "P5S534",
+      rssFeedUrl: "https://www.healthhub.com/feed",
+      brandImageUrl:
+        "https://res.cloudinary.com/dykperm6m/image/upload/v1759096050/BrandLogos/healthhub.png",
+      brandBio: "Tips, news, and guides for a healthier lifestyle.",
+      brandName: "Health Hub",
+      reviewStatus: "Pending",
+      regDate: "2025-07-12",
+      adminComments: null,
+      adminComments2: null,
     },
   ];
 
@@ -75,12 +104,7 @@ const BrandsPage = () => {
       <Text fontSize="2xl" fontWeight="bold">
         Brands
       </Text>
-      <BrandsSummary
-        totalBrands={10}
-        inReview={5}
-        totalApproved={3}
-        totalFollowers={20000000}
-      />
+      <BrandsSummary brands={brands} />
       <BrandsTable brands={brands} />
     </Flex>
   );
