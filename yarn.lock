@@ -234,11 +234,6 @@
     sucrase "^3.35.0"
     zod "^4.1.12"
 
-"@chakra-ui/icons@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-2.2.4.tgz#fc3f59a7e377d6e4efdbe8ee0a3aec7f29a4ab32"
-  integrity sha512-l5QdBgwrAg3Sc2BRqtNkJpfuLw/pWRDwwT58J6c4PqQT6wzXxyNa8Q0PForu1ltB5qEiFb1kxr/F/HO1EwNa6g==
-
 "@chakra-ui/react@^3.28.0":
   version "3.28.0"
   resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-3.28.0.tgz#80032728ec9ed135328bf4b9eb1d31c575f9cbd7"
