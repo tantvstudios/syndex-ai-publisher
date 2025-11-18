@@ -2,7 +2,7 @@ import { Text, Input, Box, Image } from "@chakra-ui/react";
 import { useState } from "react";
 import { StepContext } from "../../custom-multistep-dialog";
 import { BrandFormData } from "./add-brand-button";
-import { DialogStepWrapper } from "./DialogStepWrapper";
+import { DialogStepWrapper } from "./dialog-step-wrapper";
 
 export const Step1 = (ctx: StepContext<BrandFormData>) => {
   const { register, errors, nextStep } = ctx;

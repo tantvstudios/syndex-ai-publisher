@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import MultiSelectButton from "../../custom-multi-select-button";
 import { BrandFormData } from "./add-brand-button";
 import { StepContext } from "../../custom-multistep-dialog";
-import { DialogStepWrapper } from "./DialogStepWrapper";
+import { DialogStepWrapper } from "./dialog-step-wrapper";
 
 const options = [
   "Startup Spotlight",
