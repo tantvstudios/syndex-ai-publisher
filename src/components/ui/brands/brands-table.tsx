@@ -3,48 +3,65 @@ import {
   Box,
   createListCollection,
   Flex,
-  FormatNumber,
   Portal,
   Select,
   Table,
   Text,
+  IconButton,
 } from "@chakra-ui/react";
-import Link from "next/link";
-import { IoLink } from "react-icons/io5";
+
+import { IoLink, IoCheckmark } from "react-icons/io5";
+import { toaster } from "@source/components/ui/toaster";
 import AddBrand from "./add-brand/add-brand-button";
+import { useState } from "react";
+import CustomSelect from "../custom-select";
 
 type BrandProps = {
   id: number;
-  name: string;
-  registrationDate: string;
-  rssURL: string;
-  followers: number;
-  status: string;
+  brandImageUrl: string;
+  brandName: string;
+  regDate: string;
+  rssFeedUrl: string;
+  reviewStatus: string;
 };
 
 interface BrandsTableProps {
   brands: BrandProps[];
 }
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
 const statusColors: Record<string, string> = {
-  approved: "#96AA2E", // green
-  pending: "#D99A2F", // amber
-  rejected: "#C04A3A", // brick red
-  inactive: "#6B7280", // gray
+  Approved: "#96AA2E", // green
+  Pending: "#D99A2F", // amber
+  Rejected: "#C04A3A", // brick red
 };
 
-const frameworks = createListCollection({
-  items: [
-    { label: "Most Popular", value: "mostPopular" },
-    { label: "Least Popular", value: "leastPopular" },
-    { label: "Approved -> Rejected", value: "approvedRejected" },
-    { label: "Rejected -> Approved", value: "rejectedApproved" },
-  ],
-});
+const options = [
+  { label: "Approved", value: "Approved" },
+  { label: "Rejected", value: "Rejected" },
+  { label: "Pending", value: "Pending" },
+];
 
 const BrandsTable = ({ brands }: BrandsTableProps) => {
+  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+
+  const handleCopy = async (text: string, brandId: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(brandId);
+      toaster.success({
+        title: "Copied!",
+        description: "RSS URL copied to clipboard",
+      });
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) {
+      toaster.error({
+        title: "Failed to copy",
+        description: "Could not copy to clipboard",
+      });
+    }
+  };
+
   return (
     <Box mt={"2rem"} p="2rem" borderRadius="20px" bg="white" boxShadow="sm">
       <Flex justify="space-between" align="center" mb="1rem">
@@ -52,29 +69,12 @@ const BrandsTable = ({ brands }: BrandsTableProps) => {
           <Text fontSize="xl" fontWeight="bold">
             My Brands
           </Text>
-
-          <Select.Root collection={frameworks} size="sm" width="200px">
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder="Select filter" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>
-            <Portal>
-              <Select.Positioner>
-                <Select.Content>
-                  {frameworks.items.map((framework) => (
-                    <Select.Item item={framework} key={framework.value}>
-                      {framework.label}
-                      <Select.ItemIndicator />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Positioner>
-            </Portal>
-          </Select.Root>
+          <CustomSelect
+            options={options}
+            placeholder="Select filter"
+            value={selectedStatus}
+            onChange={(val) => setSelectedStatus(val)}
+          />
         </Flex>
         <AddBrand />
       </Flex>
@@ -87,26 +87,33 @@ const BrandsTable = ({ brands }: BrandsTableProps) => {
               Registration Date
             </Table.ColumnHeader>
             <Table.ColumnHeader fontWeight="bold">RSS URL</Table.ColumnHeader>
-            <Table.ColumnHeader fontWeight="bold">Followers</Table.ColumnHeader>
             <Table.ColumnHeader fontWeight="bold">Status</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {brands.map((brand) => (
             <Table.Row key={brand.id}>
-              <Table.Cell>{brand.name}</Table.Cell>
-              <Table.Cell>{brand.registrationDate}</Table.Cell>
+              <Table.Cell>{brand.brandName}</Table.Cell>
+              <Table.Cell>{brand.regDate}</Table.Cell>
               <Table.Cell>
-                <Link href={brand.rssURL}>
-                  <IoLink color="#00f7ee" size={"2rem"} />
-                </Link>
+                <Flex align="center" gap="0.5rem">
+                  <IconButton
+                    aria-label="Copy RSS URL"
+                    size={"lg"}
+                    variant="ghost"
+                    onClick={() => handleCopy(brand.rssFeedUrl, brand.id)}
+                  >
+                    {copiedId === brand.id ? (
+                      <IoCheckmark color="#96AA2E" size="1.5rem" />
+                    ) : (
+                      <IoLink color="#00f7ee" size="1.5rem" />
+                    )}
+                  </IconButton>
+                </Flex>
               </Table.Cell>
               <Table.Cell>
-                <FormatNumber value={brand.followers} />
-              </Table.Cell>
-              <Table.Cell>
-                <Text color={statusColors[brand.status] ?? "gray.500"}>
-                  {capitalize(brand.status)}
+                <Text color={statusColors[brand.reviewStatus] ?? "gray.500"}>
+                  {brand.reviewStatus}
                 </Text>
               </Table.Cell>
             </Table.Row>

@@ -1,6 +1,8 @@
-import { Box, Button, Dialog, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, Text } from "@chakra-ui/react";
 import MultiSelectButton from "../../custom-multi-select-button";
+import { StepContext } from "../../custom-multistep-dialog";
+import { BrandFormData } from "./add-brand-button";
+import { DialogStepWrapper } from "./DialogStepWrapper";
 
 const northeastOptions = [
   "Connecticut (CT)",
@@ -21,7 +23,6 @@ const northeastOptions = [
 const southeastOptions = [
   "Alabama (AL)",
   "Arkansas (AR)",
-  "District of Columbia (DC)", // Duplicate but included as shown in figma
   "Florida (FL)",
   "Georgia (GA)",
   "Kentucky (KY)",
@@ -33,112 +34,82 @@ const southeastOptions = [
   "Virginia (VA)",
 ];
 
-export const Step4 = ({
-  prevStep,
-  handleClose,
-}: {
-  prevStep: () => void;
-  handleClose: () => void;
-}) => {
-  const [northSelected, setNorthSelected] = useState<string[]>([]);
-  const [southSelected, setSouthSelected] = useState<string[]>([]);
+export const Step4 = (ctx: StepContext<BrandFormData>) => {
+  const { setValue, watch, prevStep, submit } = ctx;
+  const regions = watch("regions") || [];
+
+  // Split stored regions back into northeast/southeast for display
+  const northSelected = regions.filter((r) => northeastOptions.includes(r));
+  const southSelected = regions.filter((r) => southeastOptions.includes(r));
+
+  const handleNorthChange = (values: string[]) => {
+    const newRegions = [...southSelected, ...values];
+    setValue("regions", newRegions, { shouldValidate: true });
+  };
+
+  const handleSouthChange = (values: string[]) => {
+    const newRegions = [...northSelected, ...values];
+    setValue("regions", newRegions, { shouldValidate: true });
+  };
+
   return (
-    <Box p={0}>
-      <Dialog.Header
-        flex="column"
-        p={"2rem"}
-        justifyContent="center"
-        fontWeight="extrabold"
-        fontSize={"2rem"}
-      >
-        Create New Brand
-      </Dialog.Header>
-      <Dialog.Body>
+    <DialogStepWrapper
+      onBack={prevStep}
+      onNext={submit}
+      nextLabel="Create Brand"
+    >
+      <Box mb={4}>
+        <Text as="label" display="block" mb={2} fontSize="sm" color={"#6d6d6d"}>
+          What region do you belong to?
+        </Text>
         <Box mb={4}>
           <Text
             as="label"
             display="block"
-            mb={2}
+            mb={1}
+            fontWeight={"bold"}
             fontSize="sm"
-            color={"#6d6d6d"}
           >
-            What region do you belong to?
+            Northeast
           </Text>
-          <Box mb={4}>
-            <Text
-              as="label"
-              display="block"
-              mb={1}
-              fontWeight={"bold"}
-              fontSize="sm"
-            >
-              Northeast
+          <MultiSelectButton
+            options={northeastOptions}
+            value={northSelected}
+            onChange={handleNorthChange}
+            size="sm"
+            spacing={2}
+          />
+          {northSelected.length > 0 && (
+            <Text mt={4} fontSize="sm" color="gray.600">
+              Selected: {northSelected.join(", ")}
             </Text>
-            <MultiSelectButton
-              options={northeastOptions}
-              value={northSelected}
-              onChange={setNorthSelected}
-              size="sm"
-              spacing={2}
-            />
-            {northSelected.length > 0 && (
-              <Text mt={4} fontSize="sm" color="gray.600">
-                Selected: {northSelected.join(", ")}
-              </Text>
-            )}
-          </Box>
-
-          <Box mb={4}>
-            <Text
-              as="label"
-              display="block"
-              mb={1}
-              fontWeight={"bold"}
-              fontSize="sm"
-            >
-              Southeast
-            </Text>
-            <MultiSelectButton
-              options={southeastOptions}
-              value={southSelected}
-              onChange={setSouthSelected}
-              size="sm"
-              spacing={2}
-            />
-            {southSelected.length > 0 && (
-              <Text mt={4} fontSize="sm" color="gray.600">
-                Selected: {southSelected.join(", ")}
-              </Text>
-            )}
-          </Box>
+          )}
         </Box>
-      </Dialog.Body>
-      <Dialog.Footer justifyContent="space-between" p={"2rem"}>
-        <Button
-          bg="white"
-          color="black"
-          borderColor={"black"}
-          variant="outline"
-          size="md"
-          width="45%"
-          rounded={"0.5rem"}
-          onClick={prevStep}
-        >
-          Back
-        </Button>
 
-        <Button
-          bg="black"
-          color="white"
-          _hover={{ bg: "gray.700" }}
-          size="md"
-          width="45%"
-          rounded={"0.5rem"}
-          onClick={handleClose}
-        >
-          Create Brand
-        </Button>
-      </Dialog.Footer>
-    </Box>
+        <Box mb={4}>
+          <Text
+            as="label"
+            display="block"
+            mb={1}
+            fontWeight={"bold"}
+            fontSize="sm"
+          >
+            Southeast
+          </Text>
+          <MultiSelectButton
+            options={southeastOptions}
+            value={southSelected}
+            onChange={handleSouthChange}
+            size="sm"
+            spacing={2}
+          />
+          {southSelected.length > 0 && (
+            <Text mt={4} fontSize="sm" color="gray.600">
+              Selected: {southSelected.join(", ")}
+            </Text>
+          )}
+        </Box>
+      </Box>
+    </DialogStepWrapper>
   );
 };
