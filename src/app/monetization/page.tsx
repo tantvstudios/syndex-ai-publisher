@@ -17,3 +17,7 @@ export default function MonetizationPage() {
     </Box>
   );
 }
+export default function MonetizationPage() {
+    return <div>Monetization</div>;
+  }
+  
