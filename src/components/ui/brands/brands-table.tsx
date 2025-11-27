@@ -1,20 +1,12 @@
 "use client";
-import {
-  Box,
-  createListCollection,
-  Flex,
-  Portal,
-  Select,
-  Table,
-  Text,
-  IconButton,
-} from "@chakra-ui/react";
+import { Box, Flex, Table, Text, IconButton } from "@chakra-ui/react";
 
 import { IoLink, IoCheckmark } from "react-icons/io5";
 import { toaster } from "@source/components/ui/toaster";
 import AddBrand from "./add-brand/add-brand-button";
 import { useState } from "react";
 import CustomSelect from "../custom-select";
+import Image from "next/image";
 
 type BrandProps = {
   id: number;
@@ -93,7 +85,18 @@ const BrandsTable = ({ brands }: BrandsTableProps) => {
         <Table.Body>
           {brands.map((brand) => (
             <Table.Row key={brand.id}>
-              <Table.Cell>{brand.brandName}</Table.Cell>
+              <Table.Cell>
+                <Flex align="center" gap="0.5rem">
+                  <Image
+                    src={brand.brandImageUrl}
+                    alt={brand.brandName}
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                  />
+                  {brand.brandName}
+                </Flex>
+              </Table.Cell>
               <Table.Cell>{brand.regDate}</Table.Cell>
               <Table.Cell>
                 <Flex align="center" gap="0.5rem">
