@@ -100,7 +100,7 @@ const BrandsPage = () => {
   ];
 
   return (
-    <Flex direction={"column"} pl={"1rem"} pt={"0.5rem"}>
+    <Flex direction={"column"} p={"2rem"}>
       <Text fontSize="2xl" fontWeight="bold">
         Brands
       </Text>
