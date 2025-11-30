@@ -71,7 +71,7 @@ const BrandsTable = ({ brands }: BrandsTableProps) => {
         <AddBrand />
       </Flex>
 
-      <Table.Root size={"lg"} mt="1rem">
+      <Table.Root size={"lg"} mt="1rem" interactive>
         <Table.Header>
           <Table.Row fontSize={"11px"}>
             <Table.ColumnHeader fontWeight="bold">Name</Table.ColumnHeader>
